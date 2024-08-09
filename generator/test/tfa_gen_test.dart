@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:tfa/tfa.dart';
+import 'package:tfa_gen/tfa_gen.dart';
 
 void main() {
   test('adds one to input values', () {

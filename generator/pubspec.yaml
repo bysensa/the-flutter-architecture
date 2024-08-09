@@ -1,0 +1,20 @@
+name: tfa_gen
+description: "Collection of generators for tfa package"
+version: 0.0.1
+homepage: https://github.com/bysensa/the-flutter-architecture
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.5"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+
