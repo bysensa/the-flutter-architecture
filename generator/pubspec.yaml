@@ -10,11 +10,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  tfa:
+    path: ../package
+
+  build: ^2.4.1
+  analyzer: "^6.4.1"
+  source_gen: ^1.5.0
+  managed: ^1.0.0
+  code_builder: ^4.10.0
+  recase: ^4.1.0
+  glob: ^2.1.2
+  path: ^1.8.0
+  build_resolvers: ^2.0.6
+  meta: ^1.3.0
+  mobx: ^2.3.3+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  source_gen_test: ^1.0.6
+  build_test: ^2.2.2
+  build_runner: ^2.1.7
+  coverage: ^1.0.4
+  logging: ^1.0.2
+  mocktail: ^1.0.0
 
 flutter:
 

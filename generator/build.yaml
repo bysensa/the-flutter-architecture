@@ -1,0 +1,34 @@
+targets:
+  $default:
+    builders:
+      tfa_gen|state_store_builder:
+        enabled: true
+      tfa_gen|managed_builder:
+        enabled: true
+      tfa_gen|module_builder:
+        enabled: true
+
+builders:
+  state_store_builder:
+    target: ':state_store_generator'
+    import: "package:tfa_gen/build.dart"
+    builder_factories: [ 'stateStoreGenerator' ]
+    build_extensions: { '.dart': [ '.store.g.part' ] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: [ 'source_gen|combining_builder' ]
+    runs_before: [ "tfa_gen|managed_builder" ]
+  managed_builder:
+    import: "package:tfa_gen/build.dart"
+    builder_factories: [ "managedGenerator" ]
+    build_extensions: { ".dart": [ ".managed.dart" ] }
+    auto_apply: dependents
+    build_to: cache
+    runs_before: [ "tfa_gen|module_builder" ]
+  module_builder:
+    import: "package:tfa_gen/build.dart"
+    builder_factories: [ "moduleGenerator" ]
+    build_extensions: { ".dart": [ ".module.dart" ] }
+    auto_apply: dependents
+    build_to: source
+
