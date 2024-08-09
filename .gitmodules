@@ -1,9 +1,0 @@
-[submodule "submodules/mobx.dart"]
-	path = submodules/mobx.dart
-	url = https://github.com/bysensa/mobx.dart.git
-[submodule "submodules/managed"]
-	path = submodules/managed
-	url = https://github.com/bysensa/managed.git
-[submodule "submodules/managed_gen"]
-	path = submodules/managed_gen
-	url = https://github.com/bysensa/managed_gen.git
