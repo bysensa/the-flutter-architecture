@@ -1,0 +1,3 @@
+[submodule "submodules/mobx.dart"]
+	path = submodules/mobx.dart
+	url = https://github.com/bysensa/mobx.dart.git
