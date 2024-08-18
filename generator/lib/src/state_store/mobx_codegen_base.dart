@@ -6,7 +6,7 @@ import 'package:build/build.dart';
 import 'store_class_visitor.dart';
 import 'template/store.dart';
 import 'template/store_file.dart';
-import 'type_names.dart';
+import '../shared/type_names.dart';
 import 'package:source_gen/source_gen.dart';
 
 class StoreGenerator extends Generator {

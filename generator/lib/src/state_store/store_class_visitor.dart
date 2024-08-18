@@ -18,9 +18,9 @@ import 'template/observable_future.dart';
 import 'template/observable_stream.dart';
 import 'template/provide.dart';
 import 'template/store.dart';
-import 'template/util.dart';
-import 'type_names.dart';
-import 'utils/non_private_name_extension.dart';
+import '../shared/util.dart';
+import '../shared/type_names.dart';
+import '../shared/non_private_name_extension.dart';
 import 'package:source_gen/source_gen.dart';
 
 class StoreClassVisitor extends SimpleElementVisitor {

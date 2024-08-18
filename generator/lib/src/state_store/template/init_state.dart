@@ -1,5 +1,5 @@
 import 'provide.dart';
-import 'rows.dart';
+import '../../shared/rows.dart';
 
 class InitStateTemplate {
   final Rows<ProvideTemplate> provides = Rows();

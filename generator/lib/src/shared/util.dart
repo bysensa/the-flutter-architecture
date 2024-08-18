@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'params.dart';
-import '../type_names.dart';
+import 'type_names.dart';
 import 'package:source_gen/source_gen.dart';
 
 // ignore: avoid_annotating_with_dynamic

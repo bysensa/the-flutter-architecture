@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'template/comma_list.dart';
+import 'comma_list.dart';
 
 /// Determines the names of types within the context of a library, determining
 /// prefixes if applicable.

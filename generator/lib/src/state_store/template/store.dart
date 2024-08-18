@@ -1,16 +1,16 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'action.dart';
 import 'async_action.dart';
-import 'comma_list.dart';
+import '../../shared/comma_list.dart';
 import 'computed.dart';
 import 'did_change_dependencies.dart';
 import 'init_state.dart';
 import 'observable.dart';
 import 'observable_future.dart';
 import 'observable_stream.dart';
-import 'params.dart';
+import '../../shared/params.dart';
 import 'provide.dart';
-import 'rows.dart';
+import '../../shared/rows.dart';
 
 class StateStoreTemplate extends StoreTemplate {
   String get typeName => '${publicTypeName}Store';

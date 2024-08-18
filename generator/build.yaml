@@ -7,8 +7,19 @@ targets:
         enabled: true
       tfa_gen|module_builder:
         enabled: true
+      tfa_gen|action_builder:
+        enabled: true
 
 builders:
+  action_builder:
+    target: ':action_generator'
+    import: "package:tfa_gen/build.dart"
+    builder_factories: [ 'actionGenerator' ]
+    build_extensions: { '.dart': [ '.action.g.part' ] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: [ 'source_gen|combining_builder' ]
+    runs_before: [ "tfa_gen|state_store_builder" ]
   state_store_builder:
     target: ':state_store_generator'
     import: "package:tfa_gen/build.dart"

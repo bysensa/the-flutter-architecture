@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'comma_list.dart';
-import 'params.dart';
-import 'util.dart';
-import '../type_names.dart';
+import '../../shared/comma_list.dart';
+import '../../shared/params.dart';
+import '../../shared/util.dart';
+import '../../shared/type_names.dart';
 
 /// Stores templating information about constructors and methods.
 class MethodOverrideTemplate {

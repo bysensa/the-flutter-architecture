@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:meta/meta.dart';
 import 'store.dart';
-import '../utils/non_private_name_extension.dart';
+import '../../shared/non_private_name_extension.dart';
 
 class ObservableTemplate {
   ObservableTemplate({
