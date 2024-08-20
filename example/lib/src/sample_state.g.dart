@@ -20,26 +20,32 @@ abstract class CountStateStore<W extends StatefulWidget> extends CountState<W>
     super.didChangeDependencies();
   }
 
-  Computed<String>? _$countX2Computed;
+  Computed<String>? _$countTextComputed;
+  ObservableValue<String> get countText$ => (_$countTextComputed ??=
+      Computed<String>(() => super.countText, name: 'CountState.countText'));
 
   @override
-  String get countX2 => (_$countX2Computed ??=
-          Computed<String>(() => super.countX2, name: 'CountState.countX2'))
-      .value;
-
-  late final _$countAtom =
-      Atom(name: 'CountState.count', context: reactiveContext);
+  String get countText => countText$.value;
+  Computed<int>? _$countComputed;
+  ObservableValue<int> get count$ => (_$countComputed ??=
+      Computed<int>(() => super.count, name: 'CountState.count'));
 
   @override
-  int get count {
-    _$countAtom.reportRead();
-    return super.count;
+  int get count => count$.value;
+
+  late final _$_countAtom =
+      Atom(name: 'CountState._count', context: reactiveContext);
+
+  @override
+  int get _count {
+    _$_countAtom.reportRead();
+    return super._count;
   }
 
   @override
-  set count(int value) {
-    _$countAtom.reportWrite(value, super.count, () {
-      super.count = value;
+  set _count(int value) {
+    _$_countAtom.reportWrite(value, super._count, () {
+      super._count = value;
     });
   }
 

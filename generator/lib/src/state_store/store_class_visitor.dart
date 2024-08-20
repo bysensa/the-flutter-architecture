@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 // ignore: implementation_imports
 import 'package:mobx/src/api/annotations.dart'
     show ComputedMethod, MakeAction, MakeObservable, StoreConfig;
-import 'package:tfa/state_store.dart';
+import 'package:tfa/annotations.dart';
 
 import 'errors.dart';
 import 'template/action.dart';
@@ -187,6 +187,7 @@ class StoreClassVisitor extends SimpleElementVisitor {
 
     final template = ComputedTemplate(
         computedName: '_\$${element.name}Computed',
+        computedNamePublic: '${element.name}\$',
         storeTemplate: _storeTemplate,
         name: element.name,
         type: typeNameFinder.findGetterTypeName(element),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tfa/annotations.dart';
 import 'package:tfa/state_store.dart';
 
 part 'sample_state.g.dart';
@@ -6,22 +7,25 @@ part 'sample_state.g.dart';
 abstract class CountState<W extends StatefulWidget> extends State<W>
     with StateStore {
   @observable
-  int count = 0;
+  int _count = 0;
 
   @computed
-  String get countX2 => '$count';
+  String get countText => '$_count';
+
+  @computed
+  int get count => _count;
 
   @action
   void increment() {
-    count++;
+    _count++;
   }
 
   @action
   void decrement() {
-    count--;
+    _count--;
   }
 
   bool canIncrement({required int count, required String text}) {
-    return this.count < 10;
+    return this._count < 10;
   }
 }
