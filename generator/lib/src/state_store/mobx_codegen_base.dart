@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/type_system.dart';
 import 'package:build/build.dart';
 import 'store_class_visitor.dart';
@@ -31,7 +32,9 @@ class StoreGenerator extends Generator {
     TypeSystem typeSystem,
   ) sync* {
     for (final classElement in library.classes) {
-      yield* _generateCodeForStateStore(library, classElement, typeSystem);
+      if (isStateStoreClass(classElement)) {
+        yield* _generateCodeForStateStore(library, classElement, typeSystem);
+      }
     }
   }
 
