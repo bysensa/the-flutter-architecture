@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
+import 'package:build/build.dart';
 import 'package:change_case/change_case.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:tfa/annotations.dart' show IntentParam;
+import 'package:tfa_gen/src/managed/extensions/element.extension.dart';
 import 'package:tfa_gen/src/managed/extensions/spec.extension.dart';
 
 import '../../shared/type_names.dart';
@@ -12,15 +17,32 @@ class IntentActionTemplate {
   IntentActionTemplate.fromElement(
     FunctionElement element, {
     required LibraryScopedNameFinder finder,
+    DartType? externalIntentType,
   }) {
+    ClassElement? externalIntentClass;
+    // check that externalIntentType is ClassElement
+    final externalIntentIsClass = externalIntentType != null &&
+        externalIntentType.element is ClassElement;
+
+    if (externalIntentIsClass) {
+      final externalIntentElement = externalIntentType.element as ClassElement;
+      // check that externalIntentType is Intent
+      final isExtendsIntent = externalIntentElement.allSupertypes
+          .any((type) => type.element.displayName == 'Intent');
+      // assign externalIntentType as ClassElement only if it extends Intent
+      externalIntentClass = isExtendsIntent ? externalIntentElement : null;
+    }
+
     _intent = _IntentTemplate(
       element,
       finder: finder,
+      externalIntentClass: externalIntentClass,
     );
 
     _action = _ActionTemplate(
       element,
       finder: finder,
+      externalIntentClass: externalIntentClass,
     );
   }
 
@@ -39,10 +61,12 @@ class _IntentTemplate {
   _IntentTemplate(
     this.element, {
     required this.finder,
+    this.externalIntentClass,
   });
 
   final FunctionElement element;
   final LibraryScopedNameFinder finder;
+  final ClassElement? externalIntentClass;
 
   late final List<ParameterElement> parameters = () {
     return element.parameters
@@ -81,9 +105,26 @@ class _IntentTemplate {
     return builder.build();
   }();
 
+  late final TypeDef? externalIntentTypeDef = () {
+    if (externalIntentClass == null) {
+      return null;
+    }
+    return TypeDef(
+      (b) => b
+        ..name = element.intentName
+        ..definition = refer(externalIntentClass!.displayName),
+    );
+  }();
+
   @override
   String toString() {
-    return cls.formattedString();
+    if (externalIntentClass == null) {
+      return cls.formattedString();
+    } else if (externalIntentTypeDef != null) {
+      return externalIntentTypeDef!.formattedString();
+    } else {
+      throw StateError('Cant build Intent class and external intent type def.');
+    }
   }
 }
 
@@ -91,6 +132,7 @@ class _ActionTemplate {
   _ActionTemplate(
     this.element, {
     required this.finder,
+    this.externalIntentClass,
   });
 
   static final _formatter = DartFormatter();
@@ -98,6 +140,7 @@ class _ActionTemplate {
 
   final FunctionElement element;
   final LibraryScopedNameFinder finder;
+  final ClassElement? externalIntentClass;
 
   late final bool isContextAction = () {
     return element.parameters.any((param) => param.isBuildContextParameter);
@@ -231,11 +274,13 @@ class _ActionTemplate {
     );
 
     final positionalArgs = [
-      for (final param in positionalParameters) param.invocationArgument
+      for (final param in positionalParameters)
+        param.invocationArgument(externalIntentClass)
     ];
 
     final namedArgs = {
-      for (final param in namedParameters) param.name: param.invocationArgument
+      for (final param in namedParameters)
+        param.name: param.invocationArgument(externalIntentClass)
     };
 
     final methodImpl = isAsyncAction
@@ -403,8 +448,33 @@ extension on ParameterElement {
           ),
       );
 
-  Expression get invocationArgument {
-    if (isIntentParameter) {
+  Expression invocationArgument(ClassElement? externalIntent) {
+    if (isIntentParameter && externalIntent != null) {
+      final externalIntentField = externalIntent.fields
+          .where((field) => field.displayName == name)
+          .firstOrNull;
+      if (externalIntentField != null) {
+        final currentParameterType =
+            type.getDisplayString(withNullability: true);
+        final externalIntentFieldType =
+            externalIntentField.type.getDisplayString(withNullability: true);
+        if (externalIntentFieldType != currentParameterType) {
+          log.severe(
+            "ActionGenerator: External intent ${externalIntent.name} "
+            "has field $name with type $externalIntentFieldType "
+            "that is not equal to current parameter type $currentParameterType}",
+          );
+        }
+        return refer('intent').property(name);
+      } else {
+        log.severe(
+          'ActionGenerator: ExternalIntent ${externalIntent.name} '
+          'has no field $name (available fields: ${externalIntent.fields.map((field) => field.name)})',
+        );
+
+        return refer('intent').property(name);
+      }
+    } else if (isIntentParameter && externalIntent == null) {
       return refer('intent').property(name);
     } else if (isBuildContextParameter) {
       return refer('context').nullChecked;

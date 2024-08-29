@@ -7,12 +7,21 @@ import 'sample_state.dart';
 
 part 'features.g.dart';
 
-@action
+@actionFn
 void increment(BuildContext context, {required CountState model}) {
   model.increment();
 }
 
-@action
+@actionFn
 void decrement(BuildContext context, {required CountState model}) {
   model.decrement();
+}
+
+@ActionFn(intentType: PrioritizedIntents)
+void doWhenNothing(
+  BuildContext context, {
+  required CountState model,
+  @inp required int? orderedIntents,
+}) {
+  //
 }
