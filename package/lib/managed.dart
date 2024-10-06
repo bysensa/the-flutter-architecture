@@ -1,2 +1,3 @@
-export 'src/managed/annotations.dart';
-export 'src/managed/managed.dart';
+library managed;
+
+export "src/managed/managed.dart";

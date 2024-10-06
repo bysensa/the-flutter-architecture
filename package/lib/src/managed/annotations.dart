@@ -18,3 +18,19 @@ class ManagedType {
 class Module {
   const Module();
 }
+
+/// ==============================================================================
+/// Only one instance can be created. Created instance cant be replaced or dropped
+class Singleton {
+  const Singleton();
+}
+
+/// Provide new instance when previous is dropped
+class Cached {
+  const Cached();
+}
+
+/// Every time provide new instance
+class Transitive {
+  const Transitive();
+}

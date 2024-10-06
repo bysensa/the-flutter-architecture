@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tfa/managed.dart';
+import 'package:tfa/managed_deprecated.dart';
 
 @ManagedType(scope: ScopeType.cached)
 class Empty {

@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: https://github.com/bysensa/the-flutter-architecture
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
   flutter: ">=3.19.5"
 
 dependencies:
@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   mobx: ^2.3.3+2
   nested: ^1.0.0
+  async: ^2.11.0
+  leak_tracker: any
 
 dev_dependencies:
   flutter_test:
