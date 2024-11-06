@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:example/src/events.dart';
 import 'package:example/src/features.dart';
 import 'package:example/src/sample_state.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +10,20 @@ import 'package:tfa/state_store.dart';
 
 final additionalContext = ReactiveContext();
 
+final globalEmitter = StreamController<AppEvent>();
+
 void main() {
   mainContext.config = mainContext.config.clone(
     writePolicy: ReactiveWritePolicy.always,
     isSpyEnabled: true,
   );
   mainContext.spy(print);
-  runApp(const MyApp());
+  runApp(
+    EventEmitter(
+      globalEmitter.stream,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
